@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalcuEasy - Calculus Study Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f0f4f8;
+            color: #333;
+        }
+
+        #login-toggle {
+            display: none;
+        }
+
+        .main-content {
+            display: none;
+        }
+
+        #login-toggle:checked ~ .main-content {
+            display: block; 
+        }
+
+        #login-toggle:checked ~ .login-page {
+            display: none; 
+        }
+
+        .login-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .login-card h2 {
+            color: #1e3c72;
+            margin-bottom: 8px;
+        }
+
+        .login-card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            background-color: #2563eb;
+            color: white;
+            text-align: center;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #1d4ed8;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #0f172a;
+            padding: 12px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        nav a:hover {
+            color: #38bdf8;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 25px auto;
+            padding: 0 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            color: #1e3c72;
+            border-bottom: 3px solid #38bdf8;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid #cbd5e1;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: #1e3c72;
+        }
+
+        .soal-box {
+            background: #f8fafc;
+            border-left: 4px solid #2563eb;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
+        .soal-title {
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 8px;
+        }
+
+        details {
+            margin-top: 10px;
+            background: #e2e8f0;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        summary {
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        .pembahasan {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #cbd5e1;
+            color: #334155;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #0f172a;
+            color: white;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <input type="checkbox" id="login-toggle">
+
+    <!-- ================= HALAMAN 1: FORM LOGIN ================= -->
+    <div class="login-page">
+        <div class="login-card">
+            <h2>CalcuEasy</h2>
+            <p>Silakan isi identitas mahasiswa untuk mengakses materi.</p>
+            
+            <form action="#" onsubmit="return false;">
+                <div class="form-group">
+                    <label for="nim">NIM Mahasiswa:</label>
+                    <input type="text" id="nim" placeholder="Contoh: 202601001" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="nama">Nama Lengkap:</label>
+                    <input type="text" id="nama" placeholder="Masukkan nama kamu..." required>
+                </div>
+
+                <!-- Label ini bertindak sebagai Tombol Masuk yang mencentang Checkbox -->
+                <label for="login-toggle" class="btn-submit">Masuk ke Portal Materi</label>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= HALAMAN 2: UTAMA (RUMUS, SOAL, VIDEO) ================= -->
+    <div class="main-content">
+        
+        <header>
+            <h1>CalcuEasy</h1>
+            <p>Project Web Programming — Rangkuman & Pembahasan Soal</p>
+        </header>
+
+        <nav>
+            <a href="#rumus">Rumus</a>
+            <a href="#contoh">Contoh Soal</a>
+            <a href="#latihan">Latihan Soal</a>
+            <a href="#video">Video Tutorial</a>
+        </nav>
+
+        <div class="container">
+
+            <!-- 1. Tabel Rumus -->
+            <div class="card" id="rumus">
+                <h2>1. Rumus Dasar Kalkulus 1</h2>
+                <table>
+                    <tr>
+                        <th>Materi</th>
+                        <th>Fungsi f(x)</th>
+                        <th>Hasil Turunan f'(x) / Integral ∫</th>
+                    </tr>
+                    <tr>
+                        <td>Turunan Aljabar</td>
+                        <td>f(x) = a · xⁿ</td>
+                        <td>f'(x) = a · n · xⁿ⁻¹</td>
+                    </tr>
+                    <tr>
+                        <td>Turunan Trigonometri</td>
+                        <td>f(x) = sin(x)</td>
+                        <td>f'(x) = cos(x)</td>
+                    </tr>
+                    <tr>
+                        <td>Integral Tentu Dasar</td>
+                        <td>∫ xⁿ dx</td>
+                        <td>[1 / (n + 1)] xⁿ⁺¹ + C</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 2. Contoh Soal (2 Soal) -->
+            <div class="card" id="contoh">
+                <h2>2. Contoh Soal Pembahasan</h2>
+                
+                <!-- Contoh 1 -->
+                <div class="soal-box">
+                    <div class="soal-title">Contoh 1: Turunan Fungsi Aljabar</div>
+                    <p>Tentukan turunan pertama dari fungsi <strong>f(x) = 4x³ + 2x² - 5</strong>!</p>
+                    <details>
+                        <summary>Klik untuk Lihat Pembahasan</summary>
+                        <div class="pembahasan">
+                            <p><strong>Langkah Penyelesaian:</strong></p>
+                            <p>1. Turunan 4x³ = 4 · 3 · x³⁻¹ = 12x²</p>
+                            <p>2. Turunan 2x² = 2 · 2 · x²⁻¹ = 4x</p>
+                            <p>3. Turunan konstanta (-5) = 0</p>
+                            <p><strong>Hasil Akhir: f'(x) = 12x² + 4x</strong></p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- Contoh 2 -->
+                <div class="soal-box">
+                    <div class="soal-title">Contoh 2: Integral Tak Tentu</div>
+                    <p>Tentukan hasil dari <strong>∫ 6x² dx</strong>!</p>
+                    <details>
+                        <summary>Klik untuk Lihat Pembahasan</summary>
+                        <div class="pembahasan">
+                            <p><strong>Langkah Penyelesaian:</strong></p>
+                            <p>Gunakan rumus: ∫ a·xⁿ dx = [a / (n+1)] xⁿ⁺¹ + C</p>
+                            <p>= [6 / (2 + 1)] x²⁺¹ + C</p>
+                            <p>= (6 / 3) x³ + C</p>
+                            <p><strong>Hasil Akhir: 2x³ + C</strong></p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <!-- 3. Latihan Soal Mandiri (2 Soal) -->
+            <div class="card" id="latihan">
+                <h2>3. Latihan Soal Mandiri</h2>
+                
+                <div class="soal-box">
+                    <div class="soal-title">Latihan 1: Turunan Trigonometri</div>
+                    <p>Carilah turunan pertama dari <strong>f(x) = 3 sin(x) + 2 cos(x)</strong>!</p>
+                    <details>
+                        <summary>Cek Kunci Jawaban</summary>
+                        <div class="pembahasan">
+                            <p>Ingat: Turunan sin(x) adalah cos(x), dan turunan cos(x) adalah -sin(x).</p>
+                            <p><strong>Jawaban: f'(x) = 3 cos(x) - 2 sin(x)</strong></p>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="soal-box">
+                    <div class="soal-title">Latihan 2: Integral Sederhana</div>
+                    <p>Hitunglah nilai dari <strong>∫ (3x² + 4x) dx</strong>!</p>
+                    <details>
+                        <summary>Cek Kunci Jawaban</summary>
+                        <div class="pembahasan">
+                            <p>Integral 3x² = x³</p>
+                            <p>Integral 4x = 2x²</p>
+                            <p><strong>Jawaban: x³ + 2x² + C</strong></p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <!-- 4. Frame Video YouTube -->
+            <div class="card" id="video">
+                <h2>4. Video Penjelasan (Supaya Lebih Paham)</h2>
+                <p style="margin-bottom: 12px; color: #555;">Tonton video penjelasan dasar berikut jika ingin memahami materi secara audio-visual:</p>
+                <div class="video-container">
+                    <iframe 
+                        src="https://www.youtube.com/embed/v4qRA0BRyXY" 
+                        title="#1 Pengantar kalkulus | KALKULUS" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Web Programming Project — Group 1s</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
